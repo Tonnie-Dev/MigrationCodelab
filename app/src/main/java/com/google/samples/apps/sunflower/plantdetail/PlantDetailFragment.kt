@@ -115,7 +115,7 @@ class PlantDetailFragment : Fragment() {
                 setContent {
 
                     MaterialTheme {
-                        PlantDetailDescription()
+                        PlantDetailDescription(viewModel)
                     }
                 }
             }
