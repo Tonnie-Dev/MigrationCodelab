@@ -16,6 +16,13 @@
 
 <resources>
 
+    <plurals name="number_of_songs">
+
+        <item quantity="one">%d song found</item>
+        <item quantity="other">%d songs found</item>
+    </plurals>
+
+
     <!-- Resources that do not require translation -->
     <string name="app_name" translatable="false">Sunflower</string>
 
@@ -47,11 +54,7 @@
     </plurals>
 
 
-    <plurals name="number_of_songs">
 
-        <item quantity="one">%d song found</item>
-        <item quantity="other">%d songs found</item>
-    </plurals>
 
     <!-- Accessibility -->
     <string name="a11y_plant_item_image" translation_description="Accessibility text for each of the plant images shown in the 'My garden' and 'Plant list' screens.">Picture of plant</string>

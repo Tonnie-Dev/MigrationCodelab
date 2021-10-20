@@ -27,6 +27,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -34,6 +35,8 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.content.ContextCompat
+import androidx.core.text.HtmlCompat
 import com.google.samples.apps.sunflower.R
 import com.google.samples.apps.sunflower.data.Plant
 import com.google.samples.apps.sunflower.viewmodels.PlantDetailViewModel
@@ -56,9 +59,17 @@ fun PlantDetailDescription(plantDetailViewModel: PlantDetailViewModel) {
 }
 
 @Composable
-fun PlantDetailContent(plant:Plant) {
+fun PlantDetailContent(plant: Plant) {
+    Surface() {
 
-    PlantName(name = plant.name)
+        Column(modifier = Modifier.padding(dimensionResource(id = R.dimen.margin_normal))) {
+            PlantName(name = plant.name)
+            PlantWatering(wateringInterval = plant.wateringInterval)
+        }
+
+    }
+
+
 
 }
 
@@ -86,17 +97,17 @@ fun PreviewPlantName() {
 }
 
 @Composable
-fun PlantWatering(wateringInterval:Int) {
-    
-    
-    Column( modifier =  Modifier.fillMaxWidth()) {
+fun PlantWatering(wateringInterval: Int) {
+
+
+    Column(modifier = Modifier.fillMaxWidth()) {
         // Same modifier used by both Texts
-       val centerWithPaddingModifier = Modifier
-           .padding(
-               horizontal = dimensionResource(id = R.dimen.margin_small)
-           )
-           .align(alignment = Alignment.CenterHorizontally)
-        
+        val centerWithPaddingModifier = Modifier
+            .padding(
+                horizontal = dimensionResource(id = R.dimen.margin_small)
+            )
+            .align(alignment = Alignment.CenterHorizontally)
+
         //padding
         val normalPadding = dimensionResource(id = R.dimen.margin_normal)
 
@@ -109,16 +120,27 @@ fun PlantWatering(wateringInterval:Int) {
         )
 
         //Local Context Provides a Context that can be used by Android applications.
-        val wateringIntervalText = LocalContext.current.resources.getQuantityString(
-            R.plurals.watering_needs_suffix, wateringInterval, wateringInterval
-        )
-
+        val wateringIntervalText = LocalContext.current.resources.getQuantityString(R.plurals.watering_needs_suffix, wateringInterval, wateringInterval)
+      
         //2nd Text
 
-val number
+        Text(text = wateringIntervalText, modifier= centerWithPaddingModifier.padding(bottom = normalPadding))
+
 
     }
-    
+
+}
+
+
+@Composable
+fun PlantDescription(description:String) {
+
+
+    val htmlDescription = remember(key1 = description) {
+
+        HtmlCompat.fromHtml(description,HtmlCompat.FROM_HTML_MODE_COMPACT)
+    }
+
 }
 
 @Preview
@@ -133,5 +155,8 @@ private fun PlantDetailContentPreview() {
 @Preview(name = "WateringInterval")
 @Composable
 fun PlantWateringPreview() {
-    PlantWatering(0)
+    MaterialTheme {
+        PlantWatering(7)
+    }
 }
+
