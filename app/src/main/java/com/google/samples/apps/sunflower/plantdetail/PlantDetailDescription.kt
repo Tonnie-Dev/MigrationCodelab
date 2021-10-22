@@ -17,6 +17,7 @@
 package com.google.samples.apps.sunflower.plantdetail
 
 import android.content.Context
+import android.content.res.Configuration
 import android.text.method.LinkMovementMethod
 import android.widget.Button
 import android.widget.ImageView
@@ -163,7 +164,7 @@ fun PlantDescription(description:String) {
 
 
 
-@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun PlantDetailContentPreview() {
     val plant = Plant("id", "Apple", "HTML<br><br>description", 3, 30, "")
