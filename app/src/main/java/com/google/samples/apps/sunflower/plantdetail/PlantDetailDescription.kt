@@ -17,6 +17,10 @@
 package com.google.samples.apps.sunflower.plantdetail
 
 import android.content.Context
+import android.text.method.LinkMovementMethod
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -24,10 +28,9 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -35,6 +38,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import com.google.samples.apps.sunflower.R
@@ -135,12 +139,34 @@ fun PlantWatering(wateringInterval: Int) {
 @Composable
 fun PlantDescription(description:String) {
 
-
+    // Remembers the HTML formatted description. Re-executes on a new description
     val htmlDescription = remember(key1 = description) {
 
         HtmlCompat.fromHtml(description,HtmlCompat.FROM_HTML_MODE_COMPACT)
     }
+// Displays the TextView on the screen and updates with the HTML description when inflated
+    // Updates to htmlDescription will make AndroidView recompose and update the text
+    AndroidView(
+        factory = { context ->TextView(context).apply {
+                movementMethod = LinkMovementMethod.getInstance()
+            }
+        },
+        update = {
+            it.text = htmlDescription
+        }
+    )
+}
 
+
+
+@Composable
+fun RememberReview() {
+
+    //String wrapped inside a MutableState<String>
+    val state1:MutableState<String> = remember { mutableStateOf("")}
+
+    //unwrapped String
+    val state2: String by remember(1,2,"") { mutableStateOf("GOAT") }
 }
 
 @Preview
