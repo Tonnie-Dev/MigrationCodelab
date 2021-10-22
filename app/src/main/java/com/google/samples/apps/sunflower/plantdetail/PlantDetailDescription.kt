@@ -69,6 +69,7 @@ fun PlantDetailContent(plant: Plant) {
         Column(modifier = Modifier.padding(dimensionResource(id = R.dimen.margin_normal))) {
             PlantName(name = plant.name)
             PlantWatering(wateringInterval = plant.wateringInterval)
+            PlantDescription(description = plant.description)
         }
 
     }
@@ -159,20 +160,12 @@ fun PlantDescription(description:String) {
 
 
 
-@Composable
-fun RememberReview() {
 
-    //String wrapped inside a MutableState<String>
-    val state1:MutableState<String> = remember { mutableStateOf("")}
-
-    //unwrapped String
-    val state2: String by remember(1,2,"") { mutableStateOf("GOAT") }
-}
 
 @Preview
 @Composable
 private fun PlantDetailContentPreview() {
-    val plant = Plant("id", "Apple", "description", 3, 30, "")
+    val plant = Plant("id", "Apple", "HTML<br><br>description", 3, 30, "")
     MaterialTheme {
         PlantDetailContent(plant)
     }
